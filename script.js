@@ -1,10 +1,6 @@
-// База данных имён и описаний для каждой вселенной
 const UNIVERSES = {
   cyberpunk: {
-    names: [
-      "Викс", "Нейро", "Каэль", "Зеро", "Рейв", "Джекс", "Кира", "Сайлент", "Вольт", "Тейк",
-      "Эхо", "Макс", "Стил", "Гоуст", "Рэйд", "Крид", "Пиксель", "Синт", "Кодекс", "Хром"
-    ],
+    names: ["Викс", "Нейро", "Каэль", "Зеро", "Рейв", "Джекс", "Кира", "Сайлент", "Вольт", "Тейк", "Эхо", "Макс", "Стил", "Гоуст", "Рэйд", "Крид", "Пиксель", "Синт", "Кодекс", "Хром"],
     titles: ["Ночной Архитектор", "Хакер-Отступник", "Корпоративный Шпион", "Уличный Самурай", "Кибер-Доктор"],
     descriptions: [
       "Ты — легенда подполья Нео-Токио. Твой код взламывал корпорации ещё до того, как ты научился говорить.",
@@ -15,10 +11,7 @@ const UNIVERSES = {
     ]
   },
   fantasy: {
-    names: [
-      "Аэлин", "Тирион", "Элара", "Драго", "Селениэль", "Каэдрин", "Люциан", "Ариэль", "Талон", "Мирелла",
-      "Вальдор", "Эовин", "Галадриэль", "Ксанатар", "Иллюмина", "Рейвен", "Торвин", "Лиандра", "Аэгис", "Нимфа"
-    ],
+    names: ["Аэлин", "Тирион", "Элара", "Драго", "Селениэль", "Каэдрин", "Люциан", "Ариэль", "Талон", "Мирелла", "Вальдор", "Эовин", "Галадриэль", "Ксанатар", "Иллюмина", "Рейвен", "Торвин", "Лиандра", "Аэгис", "Нимфа"],
     titles: ["Хранитель Леса", "Маг Огня", "Рыцарь Дракона", "Эльфийский Лучник", "Тёмный Колдун"],
     descriptions: [
       "Ты — древний эльф, который видел падение империй и рождение новых миров. Твоя стрела никогда не промахивается.",
@@ -29,10 +22,7 @@ const UNIVERSES = {
     ]
   },
   space: {
-    names: [
-      "Орион", "Вега", "Нова", "Астра", "Космо", "Лира", "Атлас", "Стеллар", "Галактик", "Феникс",
-      "Нейтрон", "Пульсар", "Комета", "Андромеда", "Кассиопея", "Зенит", "Апекс", "Квазар", "Магеллан", "Юпитер"
-    ],
+    names: ["Орион", "Вега", "Нова", "Астра", "Космо", "Лира", "Атлас", "Стеллар", "Галактик", "Феникс", "Нейтрон", "Пульсар", "Комета", "Андромеда", "Кассиопея", "Зенит", "Апекс", "Квазар", "Магеллан", "Юпитер"],
     titles: ["Капитан Звездолёта", "Пилот-Истребитель", "Космический Пират", "Инженер Гипердрайва", "Исследователь Галактик"],
     descriptions: [
       "Ты — капитан звездолёта «Аврора». Ты исследовал 47 галактик и видел то, что человеку видеть не положено.",
@@ -43,10 +33,7 @@ const UNIVERSES = {
     ]
   },
   anime: {
-    names: [
-      "Хикару", "Сакура", "Кайто", "Юки", "Рин", "Акира", "Наруто", "Саске", "Ичиго", "Луффи",
-      "Леви", "Эрен", "Микаса", "Танджиро", "Зеницу", "Гон", "Киллуа", "Сатору", "Юджи", "Мегуми"
-    ],
+    names: ["Хикару", "Сакура", "Кайто", "Юки", "Рин", "Акира", "Наруто", "Саске", "Ичиго", "Луффи", "Леви", "Эрен", "Микаса", "Танджиро", "Зеницу", "Гон", "Киллуа", "Сатору", "Юджи", "Мегуми"],
     titles: ["Герой Академии", "Мастер Меча", "Титаноборец", "Демон-Охотник", "Ученик Мага"],
     descriptions: [
       "Ты — ученик магической академии. Твоя сила ещё не раскрыта, но даже учителя чувствуют её потенциал.",
@@ -57,10 +44,7 @@ const UNIVERSES = {
     ]
   },
   hacker: {
-    names: [
-      "Root", "Null", "Zero", "Ghost", "Cipher", "Kernel", "Vector", "Pulse", "Daemon", "Cache",
-      "Proxy", "Hash", "Crypto", "Binary", "Hex", "Byte", "Stack", "Node", "Packet", "Shell"
-    ],
+    names: ["Root", "Null", "Zero", "Ghost", "Cipher", "Kernel", "Vector", "Pulse", "Daemon", "Cache", "Proxy", "Hash", "Crypto", "Binary", "Hex", "Byte", "Stack", "Node", "Packet", "Shell"],
     titles: ["Белый Хакер", "Серый Кардинал", "Аноним из Deep Web", "Взломщик Корпораций", "Хранитель Сети"],
     descriptions: [
       "Ты — белый хакер, который защищает банки от атак. Твой код спас миллионы долларов.",
@@ -71,10 +55,7 @@ const UNIVERSES = {
     ]
   },
   rome: {
-    names: [
-      "Маркус", "Аврелий", "Юлий", "Октавиан", "Тиберий", "Клавдий", "Нерон", "Траян", "Адриан", "Диоклетиан",
-      "Сципион", "Катон", "Цицерон", "Брут", "Кассий", "Помпей", "Красс", "Антоний", "Лепид", "Гракх"
-    ],
+    names: ["Маркус", "Аврелий", "Юлий", "Октавиан", "Тиберий", "Клавдий", "Нерон", "Траян", "Адриан", "Диоклетиан", "Сципион", "Катон", "Цицерон", "Брут", "Кассий", "Помпей", "Красс", "Антоний", "Лепид", "Гракх"],
     titles: ["Легионер X Легиона", "Сенатор Рима", "Гладиатор Арены", "Центурион", "Жрец Юпитера"],
     descriptions: [
       "Ты — легионер X Легиона, самого страшного в армии Рима. Твоё имя знают в каждом завоёванном городе.",
@@ -85,10 +66,7 @@ const UNIVERSES = {
     ]
   },
   postapoc: {
-    names: [
-      "Роуд", "Эш", "Дизель", "Ржавый", "Скав", "Рейдер", "Пустошь", "Койот", "Волк", "Призрак",
-      "Стил", "Кремень", "Осколок", "Тень", "Пепел", "Гром", "Скала", "Вихрь", "Клык", "Шрам"
-    ],
+    names: ["Роуд", "Эш", "Дизель", "Ржавый", "Скав", "Рейдер", "Пустошь", "Койот", "Волк", "Призрак", "Стил", "Кремень", "Осколок", "Тень", "Пепел", "Гром", "Скала", "Вихрь", "Клык", "Шрам"],
     titles: ["Выживший в Пустоши", "Лидер Каравана", "Охотник за Головой", "Мутант-Отшельник", "Хранитель Убежища"],
     descriptions: [
       "Ты — выживший в пустоши. Ты пережил ядерную зиму и знаешь, как добыть воду из камня.",
@@ -99,10 +77,7 @@ const UNIVERSES = {
     ]
   },
   steampunk: {
-    names: [
-      "Виктор", "Арчибальд", "Финнеган", "Хьюго", "Эдвард", "Барнаби", "Себастьян", "Кларенс", "Освальд", "Реджинальд",
-      "Джордж", "Персиваль", "Ланселот", "Гектор", "Корнелиус", "Мортимер", "Сириус", "Базиль", "Леопольд", "Фредерик"
-    ],
+    names: ["Виктор", "Арчибальд", "Финнеган", "Хьюго", "Эдвард", "Барнаби", "Себастьян", "Кларенс", "Освальд", "Реджинальд", "Джордж", "Персиваль", "Ланселот", "Гектор", "Корнелиус", "Мортимер", "Сириус", "Базиль", "Леопольд", "Фредерик"],
     titles: ["Изобретатель Пара", "Владелец Дирижабля", "Мастер Шестерёнок", "Алхимик-Механик", "Капитан Паровоза"],
     descriptions: [
       "Ты — изобретатель, который создал первый паровой компьютер. Твоё имя высечено на шестерёнках истории.",
@@ -113,10 +88,7 @@ const UNIVERSES = {
     ]
   },
   noir: {
-    names: [
-      "Сэм", "Рик", "Майкл", "Джонни", "Винсент", "Фрэнк", "Эдди", "Гарри", "Томми", "Луис",
-      "Чарли", "Бенни", "Джо", "Ник", "Макс", "Рэй", "Джек", "Билл", "Хэнк", "Пол"
-    ],
+    names: ["Сэм", "Рик", "Майкл", "Джонни", "Винсент", "Фрэнк", "Эдди", "Гарри", "Томми", "Луис", "Чарли", "Бенни", "Джо", "Ник", "Макс", "Рэй", "Джек", "Билл", "Хэнк", "Пол"],
     titles: ["Детектив Ночного Города", "Частный Сыщик", "Мафиози", "Бармен с Секретом", "Журналист-Раскоп"],
     descriptions: [
       "Ты — детектив, который знает все тёмные дела города. Твой блокнот — страшнее любого пистолета.",
@@ -127,10 +99,7 @@ const UNIVERSES = {
     ]
   },
   solarpunk: {
-    names: [
-      "Сол", "Терра", "Вирен", "Флора", "Гайя", "Аура", "Лире", "Сильва", "Нимбус", "Зефир",
-      "Рэй", "Ирис", "Орион", "Нова", "Люм", "Веспер", "Аврора", "Эос", "Гелиос", "Селена"
-    ],
+    names: ["Сол", "Терра", "Вирен", "Флора", "Гайя", "Аура", "Лире", "Сильва", "Нимбус", "Зефир", "Рэй", "Ирис", "Орион", "Нова", "Люм", "Веспер", "Аврора", "Эос", "Гелиос", "Селена"],
     titles: ["Хранитель Леса", "Инженер Солнечных Панелей", "Био-Архитектор", "Эко-Активист", "Пилот Солнечного Дирижабля"],
     descriptions: [
       "Ты — хранитель леса, который вырос на месте бывшего мегаполиса. Твоя миссия — защитить его.",
@@ -142,66 +111,87 @@ const UNIVERSES = {
   }
 };
 
-// Элементы DOM
 const nameInput = document.getElementById('nameInput');
+const photoInput = document.getElementById('photoInput');
+const photoBtn = document.getElementById('photoBtn');
+const photoName = document.getElementById('photoName');
 const universeSelect = document.getElementById('universeSelect');
 const generateBtn = document.getElementById('generateBtn');
 const resultSection = document.getElementById('result');
+const resultImageWrap = document.getElementById('resultImageWrap');
 const resultImg = document.getElementById('resultImg');
+const placeholder = document.getElementById('placeholder');
 const resultName = document.getElementById('resultName');
 const resultDesc = document.getElementById('resultDesc');
 const shareBtn = document.getElementById('shareBtn');
 const againBtn = document.getElementById('againBtn');
 
-// Случайный элемент из массива
+let uploadedPhoto = null;
+
 function random(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// Генерация результата
+photoBtn.addEventListener('click', () => {
+  photoInput.click();
+});
+
+photoInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    uploadedPhoto = event.target.result;
+    photoName.textContent = file.name;
+    photoBtn.textContent = '✅ Фото загружено';
+  };
+  reader.readAsDataURL(file);
+});
+
 function generate() {
   const userInput = nameInput.value.trim();
   const universe = universeSelect.value;
-  
+
   if (!userInput) {
     nameInput.focus();
     nameInput.style.borderColor = '#ec4899';
     setTimeout(() => { nameInput.style.borderColor = ''; }, 1500);
     return;
   }
-  
+
   const data = UNIVERSES[universe];
   const newName = random(data.names);
   const title = random(data.titles);
   const desc = random(data.descriptions);
-  
-  // Формируем промпт для картинки
-  const prompt = `portrait of ${newName}, ${title}, ${universe} style, cinematic, highly detailed, artstation, 4k`;
-  const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true&seed=${Math.floor(Math.random() * 100000)}`;
-  
-  // Показываем результат
+
   resultSection.classList.remove('hidden');
-  resultImg.src = imageUrl;
-  resultImg.alt = `${newName} — ${title}`;
   resultName.textContent = `${newName} — ${title}`;
   resultDesc.textContent = desc;
-  
-  // Плавный скролл к результату
+
+  resultImageWrap.className = 'result-image filter-' + universe;
+
+  if (uploadedPhoto) {
+    resultImg.src = uploadedPhoto;
+    resultImg.classList.add('visible');
+    placeholder.style.display = 'none';
+  } else {
+    resultImg.classList.remove('visible');
+    placeholder.style.display = 'block';
+  }
+
   setTimeout(() => {
     resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
 }
 
-// Поделиться результатом
 function share() {
   const name = resultName.textContent;
   const desc = resultDesc.textContent;
   const text = `Я — ${name} в другой вселенной! ${desc} А ты кто? Узнай: ${window.location.href}`;
-  
+
   if (navigator.share) {
     navigator.share({ title: 'Кто ты в другой Вселенной?', text: text, url: window.location.href });
   } else {
-    // Fallback — копируем в буфер
     navigator.clipboard.writeText(text).then(() => {
       shareBtn.textContent = '✅ Скопировано!';
       setTimeout(() => { shareBtn.textContent = '📸 Поделиться'; }, 2000);
@@ -209,7 +199,6 @@ function share() {
   }
 }
 
-// События
 generateBtn.addEventListener('click', generate);
 nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') generate(); });
 shareBtn.addEventListener('click', share);
