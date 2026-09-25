@@ -206,3 +206,19 @@ againBtn.addEventListener('click', () => {
   resultSection.classList.add('hidden');
   generate();
 });
+
+// Плавающие символы вселенных на фоне
+const SYMBOLS = ['🌃', '🐉', '🚀', '🌸', '💻', '🏛️', '☢️', '⚙️', '🕵️', '🌱', '✨', '⭐', '💫', '🌙'];
+const symbolsContainer = document.getElementById('floatingSymbols');
+
+if (symbolsContainer) {
+  for (let i = 0; i < 20; i++) {
+    const span = document.createElement('span');
+    span.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+    span.style.left = Math.random() * 100 + '%';
+    span.style.animationDelay = Math.random() * 25 + 's';
+    span.style.animationDuration = (20 + Math.random() * 15) + 's';
+    span.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
+    symbolsContainer.appendChild(span);
+  }
+}
