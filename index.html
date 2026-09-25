@@ -4,22 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Кто ты в другой Вселенной?</title>
-  <meta name="description" content="Узнай своё имя и облик в другой вселенной. Киберпанк, фэнтези, космос и ещё 7 миров.">
+  <meta name="description" content="Загрузи фото и узнай, кем бы ты был в другой вселенной.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="stars"></div>
-
   <main class="container">
     <header>
       <h1>Кто ты в другой Вселенной?</h1>
-      <p class="subtitle">Введи имя, выбери мир — узнай свою судьбу</p>
+      <p class="subtitle">Загрузи фото, выбери мир — узнай свою судьбу</p>
     </header>
-
     <section class="form-card">
       <label for="nameInput">Твоё имя</label>
       <input type="text" id="nameInput" placeholder="Например: Ахмед" maxlength="20">
-
+      <label for="photoInput">Загрузи своё фото</label>
+      <div class="photo-upload">
+        <input type="file" id="photoInput" accept="image/*" hidden>
+        <button type="button" id="photoBtn" class="photo-btn">📷 Выбрать фото</button>
+        <span id="photoName" class="photo-name">Файл не выбран</span>
+      </div>
       <label for="universeSelect">Вселенная</label>
       <select id="universeSelect">
         <option value="cyberpunk">🌃 Киберпанк</option>
@@ -33,14 +36,14 @@
         <option value="noir">🕵️ Нуар</option>
         <option value="solarpunk">🌱 Соларпанк</option>
       </select>
-
       <button id="generateBtn">Узнать свою судьбу</button>
     </section>
-
     <section id="result" class="result hidden">
       <div class="result-card">
-        <div class="result-image">
+        <div class="result-image" id="resultImageWrap">
           <img id="resultImg" alt="Твой облик">
+          <div class="result-overlay"></div>
+          <div id="placeholder" class="result-placeholder">🖼️</div>
         </div>
         <h2 id="resultName">—</h2>
         <p id="resultDesc" class="result-desc">—</p>
@@ -48,12 +51,10 @@
         <button id="againBtn" class="again-btn">🔄 Ещё раз</button>
       </div>
     </section>
-
     <footer>
-      <p>© 2026 Multiverse Generator. Сделано с душой.</p>
+      <p>© 2026 Multiverse Generator.</p>
     </footer>
   </main>
-
   <script src="script.js"></script>
 </body>
 </html>
