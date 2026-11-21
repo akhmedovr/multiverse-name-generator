@@ -1,0 +1,283 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Котик и пределы</title><link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" rel="stylesheet"><style>:root{--bg:#e6eeff;--sky:#cfdcff;--ground:#3a3f78;--ink:#1d2147;--card:#fff;--accent:#5b5bf0;--ok:#1f9d6b;--bad:#d63b5a;--muted:#5d6390; box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12142a;--sky:#1c2048;--ground:#8f95e8;--ink:#eceeff;--card:#1f2350;--accent:#8c8cff;--ok:#4fd6a0;--bad:#ff7a93;--muted:#a3a8d6}} html{scroll-padding-top:env(safe-area-inset-top,0px)} *{box-sizing:border-box} body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Rubik,system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;align-items:center;justify-content:center;padding:16px} .wrap{width:100%;max-width:820px} h1{font-size:1.4rem;margin:0 0 4px;font-weight:700} p.sub{margin:0 0 12px;color:var(--muted);font-size:.95rem} .demo-note{font-size:.85rem;color:var(--bad);font-weight:600;margin:8px 0} #autoToggle{margin:0 0 12px} .stage{position:relative;border-radius:18px;overflow:hidden;background:var(--sky);border:2px solid var(--ground);touch-action:manipulation;user-select:none;-webkit-user-select:none} canvas{display:block;width:100%;height:auto} .hud{position:absolute;top:10px;left:14px;right:14px;display:flex;justify-content:space-between;font-weight:600;font-size:1rem;pointer-events:none} .ov{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(18,20,42,.45);padding:12px} .ov.on{display:flex} .card{background:var(--card);color:var(--ink);border-radius:16px;padding:20px;max-width:440px;width:100%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25)} .card h2{margin:0 0 8px;font-size:1.25rem} .card p{margin:6px 0;color:var(--muted);font-size:.92rem} .lim{font-size:1.5rem;font-weight:600;margin:12px 0;color:var(--ink);line-height:1.5} .lim sub{font-size:.6em} input{width:100%;font:inherit;font-size:1.1rem;padding:10px 12px;border-radius:10px;border:2px solid var(--ground);background:var(--bg);color:var(--ink);text-align:center;margin:6px 0 10px} input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px} button{font:inherit;font-weight:600;font-size:1rem;padding:10px 22px;border:0;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer} button:hover{filter:brightness(1.08)} .timer{height:6px;border-radius:3px;background:var(--bg);overflow:hidden;margin-top:12px} .timer i{display:block;height:100%;width:100%;background:var(--accent);transform-origin:left} .big{font-size:2.4rem;font-weight:700;margin:4px 0} .ans{color:var(--bad);font-weight:600} .hint{margin-top:10px;font-size:.85rem;color:var(--muted)} #start,#quiz,#over{position:fixed;z-index:20} .lvls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 14px;text-align:left} .lvls button{background:var(--bg);color:var(--ink);border:2px solid var(--ground);padding:9px 12px;font-weight:600} .lvls button small{display:block;font-weight:400;font-size:.78rem;color:var(--muted);margin-top:2px} .lvls button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff} .lvls button[aria-pressed="true"] small{color:#fff;opacity:.9} .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap} button.sec{background:var(--bg);color:var(--ink);border:2px solid var(--ground)} .lvls .span2{grid-column:1 / -1} @media (max-width:400px){.lvls{grid-template-columns:1fr}} .card.wide{max-width:600px} .qn{font-size:.8rem;color:var(--muted);letter-spacing:.02em;margin-top:-2px} .lim{font-size:1.25rem;overflow-x:auto;overflow-y:hidden;padding:4px 2px;white-space:nowrap} .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .15em} .fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .25em .08em} .fr>span:last-child{padding:.08em .25em 0} .rt{white-space:nowrap;display:inline-block} .rt>sup{font-size:.6em;margin-right:-.3em;vertical-align:.9em} .rb{border-top:1.5px solid currentColor;padding:.05em .1em 0;margin-left:.05em} .pb{font-size:1.9em;font-weight:300;vertical-align:middle;line-height:1} .pw sup{font-size:.7em;vertical-align:1.1em} @media (max-width:480px){.lim{font-size:.95rem}.card{padding:16px 12px}} .keys{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:0 0 10px} .keys button{padding:6px 12px;font-size:1rem;background:var(--bg);color:var(--ink);border:1.5px solid var(--ground);min-width:40px}</style></head><body><div class="wrap"><h1>Котик и пределы</h1><p class="sub">Прыгай: пробел, ↑ или касание экрана. Врезался — решай предел, чтобы продолжить.</p><p class="demo-note">ДЕМО-КОПИЯ: результат не предназначен для сдачи преподавателю.</p><button id="autoToggle" class="sec" type="button">Демо-автопилот: выкл.</button><div class="stage" id="stage"><canvas id="c" width="800" height="300"></canvas><div class="hud"><span id="sc">0</span><span id="info"></span></div><div class="ov on" id="start"><div class="card"><h2>Котик бежит!</h2><p>Перепрыгивай препятствия. Если врезался — введи правильный ответ на предел, и забег продолжится. Ошибка — конец игры.</p><p style="margin-top:12px;color:var(--ink);font-weight:600">Выбери уровень сложности:</p><div class="lvls" id="lvls" role="group" aria-label="Уровень сложности"><button type="button" data-l="1" aria-pressed="true">Уровень 1<small>∞/∞</small></button><button type="button" data-l="2" aria-pressed="false">Уровень 2<small>∞/∞, 0/0 (полиномы и иррациональности)</small></button><button type="button" data-l="3" aria-pressed="false">Уровень 3<small>+ 0/0 (б.м.в.)</small></button><button type="button" data-l="4" aria-pressed="false">Уровень 4<small>+ неопределённость 1<sup>∞</sup></small></button><button type="button" data-l="5" aria-pressed="false" class="span2">Уровень 5<small>+ пределы разных типов</small></button></div><button id="go">Играть</button><div class="hint">Ответ — только точный: число, дробь (1/2), выражение с e и корнями (e^2, √e, 2/(2+7^(1/4))), ∞ или −∞</div></div></div><div class="ov" id="quiz"><div class="card wide"><h2>Ой! Спаси котика</h2><div class="qn" id="qn"></div><div class="lim" id="q"></div><input id="a" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" placeholder="Ваш ответ" aria-label="Ответ"><div class="keys" id="keys"><button type="button">√</button><button type="button">∛</button><button type="button">∜</button><button type="button">^</button><button type="button">e</button><button type="button">π</button><button type="button">∞</button><button type="button">−</button><button type="button">(</button><button type="button">)</button></div><button id="ok">Проверить</button><div class="timer"><i id="tm"></i></div><div class="hint">Только точный ответ: 1/2, e^6, √e, 2/(2+7^(1/4)), ∞ или −∞. Приближённые значения не принимаются. Время: 5 минут.</div></div></div><div class="ov" id="over"><div class="card wide"><h2 id="ot">Игра окончена</h2><div class="big" id="os">0</div><p id="ob"></p><p id="oa"></p><button id="again">Новая игра</button></div></div></div></div><script>
+(function(){
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+const W=800,H=300,GY=250;
+const $=id=>document.getElementById(id);
+
+// ---------- банк задач: КР 3 «Теория пределов без Лопиталя» (без 2.9 и 4.2) ----------
+// L(номер, раздел, x→…, выражение (HTML), ответ для показа, значение)
+const L=(n,s,t,f,a,v)=>({n,s,t,f,a,v});
+const SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+const X=k=>'x'+String(k).replace(/\d/g,d=>SUP[d]);
+const F=(a,b)=>'<span class="fr"><span>'+a+'</span><span>'+b+'</span></span>';
+const R=(k,b)=>'<span class="rt">'+(k>2?'<sup>'+k+'</sup>':'')+'√<span class="rb">'+b+'</span></span>';
+const PW=(b,e)=>'<span class="pw"><span class="pb">(</span>'+b+'<span class="pb">)</span><sup>'+e+'</sup></span>';
+const S1='Неопределённость ∞/∞',S0='Неопределённость 0/0',SE='Неопределённость 1<sup>∞</sup>',S6='Пределы разных типов';
+const BP=s=>'<span class="pb">(</span>'+s+'<span class="pb">)</span>';
+const P='x→+∞',M='x→−∞',INF=Infinity;
+const r4_7=Math.pow(7,.25),r4_2=Math.pow(2,.25);
+const e1={
+ '1.1':F(R(4,X(8)+'+'+X(12))+' + '+R(3,X(2)+'+'+X(5)), X(3)+' + 2'+R(2,'1+'+X(4))),
+ '1.2':F(R(5,X(5)+'+'+X(10))+' + '+R(3,'−2'+X(6)+'+8'+X(9)), X(2)+' + '+R(6,X(6)+'+'+X(12))),
+ '1.3':F(R(3,'1+2'+X(3)+'+'+X(6))+' + '+R(2,'−'+X(2)+'+'+X(4)), R(4,'3'+X(4)+'+7'+X(8))+' + 2'+X(2)+' + 1'),
+ '1.4':F(R(6,X(12)+'+'+X(18))+' + '+R(3,X(5)+'+'+X(8)), '2'+X(3)+' + '+R(4,'2'+X(12)+'+'+X(8))),
+ '1.5':F(R(4,'1+4'+X(8)+'+2'+X(4))+' + '+R(3,X(3)+'−'+X(6)), R(5,X(10)+'+'+X(15))+' + '+X(3)),
+ '1.6':F(R(3,'1+'+R(3,'x+'+X(12)))+' + '+R(4,X(8)+'+'+X(16)), X(4)+' + '+R(6,X(24)+'+'+X(12))),
+ '1.7':F(R(5,X(15)+'+'+X(20))+' + '+R(3,X(12)+'+'+X(6)), R(4,X(12)+'+'+X(16))+' + 2'+X(4)),
+ '1.8':F(R(3,X(4)+'+'+X(7))+' + '+R(6,X(6)+'+'+X(12)), '2'+R(5,X(10)+'+'+X(5))+' + '+X(2)),
+ '1.9':F(R(5,X(10)+'+'+X(20))+' + '+R(2,X(2)+'+'+R(3,X(24)+'+'+X(7))), R(4,X(12)+'+'+X(16))+' + '+R(6,X(6)+'+'+X(18)))
+};
+const Qs=[
+L('1.1 (+∞)',S1,P,e1['1.1'],'1',1),            L('1.1 (−∞)',S1,M,e1['1.1'],'−1',-1),
+L('1.2 (+∞)',S1,P,e1['1.2'],'+∞',INF),         L('1.2 (−∞)',S1,M,e1['1.2'],'−∞',-INF),
+L('1.3 (+∞)',S1,P,e1['1.3'],'2/(2+⁴√7) ≈ 0,5515',2/(2+r4_7)),
+L('1.3 (−∞)',S1,M,e1['1.3'],'2/(2+⁴√7) ≈ 0,5515',2/(2+r4_7)),
+L('1.4 (+∞)',S1,P,e1['1.4'],'1/(2+⁴√2) ≈ 0,3136',1/(2+r4_2)),
+L('1.4 (−∞)',S1,M,e1['1.4'],'−1/(2−⁴√2) ≈ −1,2334',-1/(2-r4_2)),
+L('1.5 (+∞)',S1,P,e1['1.5'],'0',0),            L('1.5 (−∞)',S1,M,e1['1.5'],'0',0),
+L('1.6 (+∞)',S1,P,e1['1.6'],'1/2',.5),         L('1.6 (−∞)',S1,M,e1['1.6'],'1/2',.5),
+L('1.7 (+∞)',S1,P,e1['1.7'],'2/3',2/3),        L('1.7 (−∞)',S1,M,e1['1.7'],'2/3',2/3),
+L('1.8 (+∞)',S1,P,e1['1.8'],'+∞',INF),         L('1.8 (−∞)',S1,M,e1['1.8'],'−∞',-INF),
+L('1.9 (+∞)',S1,P,e1['1.9'],'2',2),            L('1.9 (−∞)',S1,M,e1['1.9'],'2',2),
+
+L('2.1',S0,'x→3',F('2'+X(2)+' − 7x + 3','3'+X(2)+' − 8x − 3'),'1/2',.5),
+L('2.2',S0,'x→−2',F(X(2)+' − 4',X(2)+' + 5x + 6'),'−4',-4),
+L('2.3',S0,'x→1',F(X(3)+' − x',X(3)+' − 1'),'2/3',2/3),
+L('2.4',S0,'x→1/2',F('6'+X(2)+' − 5x + 1','4'+X(2)+' − 1'),'1/4',.25),
+L('2.5',S0,'x→2',F(X(3)+' − 8',X(3)+' − 4x'),'3/2',1.5),
+L('2.6',S0,'x→1',F(X(4)+' − 1',X(3)+' − '+X(2)+' + x − 1'),'2',2),
+L('2.7',S0,'x→3/2',F('4'+X(2)+' − 9','2'+X(2)+' − 5x + 3'),'12',12),
+L('2.8',S0,'x→−2',F(X(3)+' + 8',X(4)+' − 16'),'−3/8',-3/8),
+
+L('3.1',S0,'x→3',F(R(2,'x+6')+' − '+R(2,'10x−21'),'x − 3'),'−3/2',-1.5),
+L('3.2',S0,'x→1',F(R(2,'x+3')+' − 2',R(2,'2x+7')+' − 3'),'3/4',.75),
+L('3.3',S0,'x→8',F(R(3,'x')+' − 2','x − 8'),'1/12',1/12),
+L('3.4',S0,'x→0',F(R(2,'1+x')+' − '+R(2,'1−x'),'x'),'1',1),
+L('3.5',S0,'x→4',F(R(2,'x+5')+' − '+R(2,'2x+1'),R(2,'x+12')+' − '+R(2,'3x+4')),'2/3',2/3),
+L('3.6',S0,'x→1',F(R(3,'x+7')+' − 2','x − 1'),'1/12',1/12),
+L('3.7',S0,'x→0',F(R(3,'1+x')+' − '+R(3,'1−x'),'x'),'2/3',2/3),
+L('3.8',S0,'x→2',F(R(3,'x+6')+' − 2',R(2,'x+2')+' − 2'),'1/3',1/3),
+L('3.9',S0,'x→0',F(R(2,'1+x')+' + '+R(2,'1−x')+' − 2',X(2)),'−1/4',-.25),
+
+L('4.1',S0,'x→0',F('1 − cos(ln(1 + '+X(2)+'))','arcsin x · tg 2x'),'0',0),
+L('4.3',S0,'x→0',F('('+R(2,'1 + sin '+X(2))+' − 1) · tg²x','ln(1 + '+X(3)+') · sin x'),'1/2',.5),
+L('4.4',S0,'x→0',F('sin 2x · (1 − cos 3x)',X(2)+' · ln(1 + 5x)'),'9/5',1.8),
+L('4.5',S0,'x→0',F('e<sup>arcsin x²</sup> − 1','ln(1 + ln(1 + 5'+X(2)+'))'),'1/5',.2),
+L('4.6',S0,'x→1',F('ln x',X(2)+' − 1'),'1/2',.5),
+L('4.7',S0,'x→π',F('sin²x',X(2)+' − π²'),'0',0),
+L('4.8',S0,'x→π/2',F('1 − cos(2x − π)','(x − π/2)²'),'2',2),
+L('4.9',S0,'x→−2',F('e<sup>x+2</sup> − 1','sin(x + 2)'),'1',1),
+
+L('5.1',SE,P,PW(F('2x + 3','2x − 1'),'3x+2'),'e⁶',Math.exp(6)),
+L('5.2',SE,P,PW(F(X(2)+' + 2x + 3',X(2)+' + x + 1'),'2x'),'e²',Math.exp(2)),
+L('5.3',SE,'x→0',PW(F('1 + x + '+X(2)+' + 2'+X(3),'1 + x + '+X(2)),'1/x³'),'e²',Math.exp(2)),
+L('5.4',SE,P,PW(F('3'+X(2)+' + 2x + 1','3'+X(2)+' − x + 2'),'x²'),'+∞',INF),
+L('5.5',SE,P,PW(F(X(2)+' + x + 1',X(2)+' + 1'),'x²/(x+1)'),'e',Math.E),
+L('5.6',SE,'x→0',PW(F('1 + 2'+X(2)+' + 3'+X(4)+' + 5'+X(5),'1 + 2'+X(2)+' + 3'+X(4)),'1/x⁵'),'e⁵',Math.exp(5)),
+L('5.7',SE,'x→0',PW(F('1 + 3'+X(3)+' + 2'+X(5),'1 + 3'+X(3)+' − '+X(4)),'1/x⁴'),'e',Math.E),
+L('5.8',SE,P,PW(F('2'+X(3)+' + '+X(2)+' + 1','2'+X(3)+' − x + 3'),'x'),'√e = e^(1/2)',Math.sqrt(Math.E)),
+L('5.9',SE,P,PW(F('5'+X(4)+' + 2'+X(2)+' + 3x + 1','5'+X(4)+' + x + 7'),'x²'),'e^(2/5)',Math.exp(.4)),
+
+// Раздел 6. Пределы разных типов (в 6.7, 6.8, 6.10 исправлено x→… на x→0, см. пояснение)
+L('6.1',S6,P,'3x · sin '+F('1','x'),'3',3),
+L('6.2',S6,P,R(3,'2x − 1')+' · arctg'+BP(F('1','2'+R(2,'x + 1'))),'0',0),
+L('6.3',S6,'x→1','(1 − x) · tg '+F('πx','2'),'2/π',2/Math.PI),
+L('6.4',S6,'x→π',F('1 + cos x','(x − π)²'),'1/2',.5),
+L('6.5',S6,P,PW(F('2x + 1','x + 3'),'x'),'+∞',INF),
+L('6.6',S6,P,PW(F('x − 2','3x + 4'),'3x−1'),'0',0),
+L('6.7',S6,'x→0',PW('1 + tg x','1/(2x)'),'√e = e^(1/2)',Math.sqrt(Math.E)),
+L('6.8',S6,'x→0⁺',PW('1 + tg²'+R(2,'x'),'1/(2x)'),'√e = e^(1/2)',Math.sqrt(Math.E)),
+L('6.9',S6,'x→e',F('ln x − 1','x − e'),'1/e',1/Math.E),
+L('6.10',S6,'x→0',F('ln cos x',X(2)),'−1/2',-.5),
+];
+// Уровни: какие разделы банка входят в игру
+const LEVELS={1:[1],2:[1,2,3],3:[1,2,3,4],4:[1,2,3,4,5],5:[1,2,3,4,5,6]};
+let level=1;
+try{const l=+localStorage.getItem('catLevel');if(LEVELS[l])level=l;}catch(e){}
+const inLevel=q=>LEVELS[level].includes(parseInt(q.n,10));
+let pool=[];
+function nextQ(){ if(!pool.length){pool=Qs.map((_,i)=>i).filter(i=>inLevel(Qs[i]));for(let i=pool.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[pool[i],pool[j]]=[pool[j],pool[i]];}} return Qs[pool.pop()]; }
+
+// ---------- разбор ответа: числа, дроби, e, π, ^, √, ∛, ∜, sqrt, cbrt, ln, exp, ∞ ----------
+const SUPD={'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9'};
+const WORDS=['бесконечность','infinity','sqrt','cbrt','inf','exp','ln','pi','oo','e'];
+function parse(s){
+  s=String(s).trim().toLowerCase().replace(/\s+/g,'').replace(/,/g,'.')
+    .replace(/[−–—]/g,'-').replace(/[·×]/g,'*').replace(/÷/g,'/').replace(/π/g,'pi')
+    .replace(/²√/g,'√').replace(/³√/g,'∛').replace(/⁴√/g,'∜')
+    .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g,m=>'^'+[...m].map(c=>SUPD[c]).join(''));
+  if(!s)return NaN;
+  const tk=[];let i=0;
+  while(i<s.length){
+    const c=s[i];
+    if(/[0-9.]/.test(c)){let j=i;while(j<s.length&&/[0-9.]/.test(s[j]))j++;const n=s.slice(i,j);if(!/^(\d+\.?\d*|\.\d+)$/.test(n))return NaN;tk.push({k:'n',v:parseFloat(n)});i=j;continue;}
+    if('+-*/^()√∛∜∞'.includes(c)){tk.push({k:c});i++;continue;}
+    if(/[a-zа-яё]/.test(c)){const w=WORDS.find(w=>s.startsWith(w,i));if(!w)return NaN;
+      if(w==='e')tk.push({k:'n',v:Math.E});else if(w==='pi')tk.push({k:'n',v:Math.PI});
+      else if(['бесконечность','infinity','inf','oo'].includes(w))tk.push({k:'n',v:Infinity});
+      else tk.push({k:'f',v:w});i+=w.length;continue;}
+    return NaN;
+  }
+  let p=0;const pk=()=>tk[p],nx=()=>tk[p++];
+  const FN={sqrt:Math.sqrt,'√':Math.sqrt,cbrt:Math.cbrt,'∛':Math.cbrt,'∜':x=>Math.pow(x,.25),ln:Math.log,exp:Math.exp};
+  const startsAtom=t=>t&&(t.k==='n'||t.k==='f'||t.k==='('||t.k==='√'||t.k==='∛'||t.k==='∜'||t.k==='∞');
+  function expr(){let v=term();while(pk()&&(pk().k==='+'||pk().k==='-')){const o=nx().k,r=term();v=o==='+'?v+r:v-r;}return v;}
+  function term(){let v=unary();for(;;){const t=pk();
+      if(t&&(t.k==='*'||t.k==='/')){nx();const r=unary();v=t.k==='*'?v*r:v/r;}
+      else if(startsAtom(t)){v*=power();}
+      else return v;}}
+  function unary(){const t=pk();if(t&&(t.k==='-'||t.k==='+')){nx();const v=unary();return t.k==='-'?-v:v;}return power();}
+  function power(){const b=atom();if(pk()&&pk().k==='^'){nx();return Math.pow(b,unary());}return b;}
+  function atom(){const t=nx();if(!t)throw 0;
+    if(t.k==='n')return t.v;
+    if(t.k==='∞')return Infinity;
+    if(t.k==='('){const v=expr();if(!pk()||nx().k!==')')throw 0;return v;}
+    if(t.k==='f'||t.k==='√'||t.k==='∛'||t.k==='∜'){const f=FN[t.k==='f'?t.v:t.k];return f(power());}
+    throw 0;}
+  try{const v=expr();return p===tk.length?v:NaN;}catch(e){return NaN;}
+}
+function check(inp,q){const v=parse(inp);if(Number.isNaN(v))return false;
+  if(!isFinite(q.v))return v===q.v;if(!isFinite(v))return false;
+  // только точный ответ: допускается лишь погрешность машинной арифметики
+  return Math.abs(v-q.v)<=1e-12*Math.max(1,Math.abs(q.v));}
+
+// ---------- состояние ----------
+let st='idle',score=0,best=0,saves=0,dist=0,speed=320,obs=[],nextGap=0,inv=0,t0=0,last=0,autoPilot=false;
+const cat={x:70,y:GY,vy:0,on:true};
+function loadBest(){best=0;try{best=+localStorage.getItem('catBest'+level)||0;}catch(e){}}
+loadBest();
+const kinds=[{e:'📦',w:40,h:44},{e:'🪴',w:36,h:50},{e:'🥫',w:30,h:40},{e:'🧱',w:46,h:34}];
+
+function reset(){score=0;saves=0;dist=0;speed=320;obs=[];nextGap=500;inv=0;cat.y=GY;cat.vy=0;cat.on=true;updHud();}
+function updHud(){$('sc').textContent='Счёт: '+Math.floor(score);$('info').textContent='Рекорд: '+best+(saves?'  ·  Спасений: '+saves:'');}
+function jump(){if(st==='run'&&cat.on){cat.vy=-640;cat.on=false;}}
+function spawn(){const k=kinds[Math.random()*kinds.length|0];const n=Math.random()<.2?2:1;
+  for(let i=0;i<n;i++)obs.push({x:W+30+i*(k.w-4),k});
+}
+
+function colors(){const s=getComputedStyle(document.documentElement);return{sky:s.getPropertyValue('--sky').trim(),g:s.getPropertyValue('--ground').trim(),ink:s.getPropertyValue('--ink').trim()};}
+
+function step(dt){
+  speed=Math.min(620,320+score*0.8);
+  dist+=speed*dt;score+=speed*dt/12;
+  if(inv>0)inv-=dt;
+  cat.vy+=1800*dt;cat.y+=cat.vy*dt;
+  if(cat.y>=GY){cat.y=GY;cat.vy=0;cat.on=true;}
+  nextGap-=speed*dt;
+  if(nextGap<=0){spawn();nextGap=speed*0.85+260+Math.random()*320;}
+  for(const o of obs)o.x-=speed*dt;
+  obs=obs.filter(o=>o.x>-80);
+  // Демонстрационный автопилот: прыжок перед ближайшим препятствием.
+  // При появлении математической задачи автопилот отключается.
+  if(autoPilot && st==='run' && cat.on){
+    const target=obs.find(o=>o.x+o.k.w>cat.x+38 && o.x>cat.x+20);
+    if(target){
+      const distance=target.x-(cat.x+38);
+      if(distance<=Math.max(105,speed*0.42) && distance>=-8) jump();
+    }
+  }
+  // столкновение
+  if(inv<=0){
+    const cx=cat.x+8,cw=30,cy=cat.y-36,ch=34;
+    for(const o of obs){
+      const ox=o.x+4,ow=o.k.w-8,oy=GY-o.k.h+6;
+      if(cx<ox+ow&&cx+cw>ox&&cy<GY&&cy+ch>oy){crash();return;}
+    }
+  }
+  if(Math.floor(score)>best){best=Math.floor(score);}
+  updHud();
+}
+
+let curQ=null,qTimer=0,qMax=300;
+function crash(){
+  autoPilot=false;$('autoToggle').textContent='Демо-автопилот: выкл.';
+  st='quiz';curQ=nextQ();
+  $('qn').innerHTML='Задача '+curQ.n+' · '+curQ.s;
+  $('q').innerHTML='lim<sub>'+curQ.t+'</sub> '+curQ.f+' = ?';
+  $('a').value='';$('quiz').classList.add('on');qTimer=qMax;
+  setTimeout(()=>$('a').focus(),30);
+}
+function submit(){
+  if(st!=='quiz')return;
+  if(check($('a').value,curQ)){
+    saves++;st='run';$('quiz').classList.remove('on');
+    obs=obs.filter(o=>o.x<cat.x-60);inv=1.6;nextGap=Math.max(nextGap,400);
+    cat.y=GY;cat.vy=0;cat.on=true;last=performance.now();
+  }else finish(false);
+}
+function finish(timeout){
+  st='over';$('quiz').classList.remove('on');
+  const s=Math.floor(score);
+  try{if(s>=best)localStorage.setItem('catBest'+level,String(s));}catch(e){}
+  best=Math.max(best,s);
+  $('ot').textContent=timeout?'Время вышло':'Неверно, котик устал';
+  $('os').textContent=s;
+  $('ob').textContent='Рекорд: '+best+(saves?' · Спасений: '+saves:'');
+  $('oa').innerHTML='Правильный ответ: <span class="ans">'+curQ.a+'</span><br><span style="font-size:.85em">lim<sub>'+curQ.t+'</sub> '+curQ.f+'</span>';
+  $('over').classList.add('on');updHud();
+}
+function setLevel(l){level=l;try{localStorage.setItem('catLevel',String(l));}catch(e){}
+  document.querySelectorAll('#lvls button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.l===l)));
+  loadBest();updHud();}
+function start(){$('start').classList.remove('on');$('over').classList.remove('on');pool=[];reset();st='run';last=performance.now();}
+function chooseLevel(){st='idle';$('over').classList.remove('on');$('start').classList.add('on');reset();}
+
+// ---------- отрисовка ----------
+function draw(ts){
+  const c=colors();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=c.sky;ctx.fillRect(0,0,W,H);
+  // облака
+  ctx.globalAlpha=.5;ctx.font='40px serif';ctx.textBaseline='alphabetic';
+  for(let i=0;i<3;i++){const x=((i*330-dist*0.12)%1000+1000)%1000-120;ctx.fillText('☁️',x,70+i*28);}
+  ctx.globalAlpha=1;
+  // земля
+  ctx.fillStyle=c.g;ctx.fillRect(0,GY+6,W,3);
+  for(let i=0;i<24;i++){const x=((i*70-dist)%1680+1680)%1680-40;ctx.fillRect(x,GY+18+(i%3)*8,14,2);}
+  // препятствия
+  for(const o of obs){ctx.font=o.k.h+'px serif';ctx.fillText(o.k.e,o.x,GY+6);}
+  // котик
+  const run=st==='run'||st==='idle';
+  const bob=cat.on&&run?Math.sin(ts/70)*2.5:0;
+  ctx.save();
+  if(inv>0&&Math.floor(ts/90)%2===0)ctx.globalAlpha=.4;
+  ctx.translate(cat.x+24,cat.y-22+bob);
+  ctx.scale(-1,1);
+  if(!cat.on)ctx.rotate(Math.max(-.35,Math.min(.35,cat.vy/2000)));
+  ctx.font='52px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('🐈',0,0);
+  ctx.restore();ctx.textAlign='left';ctx.textBaseline='alphabetic';
+}
+
+function loop(ts){
+  const dt=Math.min(.033,(ts-last)/1000||0);last=ts;
+  if(st==='run')step(dt);
+  if(st==='quiz'){qTimer-=dt;$('tm').style.transform='scaleX('+Math.max(0,qTimer/qMax)+')';if(qTimer<=0)finish(true);}
+  draw(ts);
+  requestAnimationFrame(loop);
+}
+
+// ---------- управление ----------
+addEventListener('keydown',e=>{
+  if(st==='quiz'){if(e.key==='Enter'){e.preventDefault();submit();}return;}
+  if(e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW'){
+    e.preventDefault();
+    if(st==='run')jump();
+    else if(st==='idle')start();
+    else if(st==='over')chooseLevel();
+  }
+});
+$('stage').addEventListener('pointerdown',e=>{
+  if(e.target.closest('.ov.on'))return;
+  jump();
+});
+document.querySelectorAll('#keys button').forEach(b=>b.addEventListener('click',()=>{
+  const a=$('a'),s=a.selectionStart??a.value.length,e=a.selectionEnd??a.value.length,t=b.textContent;
+  a.value=a.value.slice(0,s)+t+a.value.slice(e);a.focus();a.setSelectionRange(s+t.length,s+t.length);}));
+document.querySelectorAll('#lvls button').forEach(b=>b.addEventListener('click',()=>setLevel(+b.dataset.l)));
+setLevel(level);
+$('go').onclick=start;$('again').onclick=chooseLevel;$('ok').onclick=submit;
+$('autoToggle').addEventListener('click',()=>{autoPilot=!autoPilot;$('autoToggle').textContent='Демо-автопилот: '+(autoPilot?'вкл.':'выкл.');});
+reset();last=performance.now();requestAnimationFrame(loop);
+})();
+</script></body></html>
